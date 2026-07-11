@@ -26,10 +26,10 @@ class Contact implements IContact {
         public zip: number,
         public phoneNumber: number,
         public email: string
-    ) {}
+    ) { }
 
     display(): void {
-        console.log("\n--------- Contact Details ---------");
+        console.log("----------------------------------");
         console.log("First Name   :", this.firstName);
         console.log("Last Name    :", this.lastName);
         console.log("Address      :", this.address);
@@ -41,31 +41,33 @@ class Contact implements IContact {
     }
 }
 
-// Address Book Class
+// AddressBook Class
 class AddressBook {
 
-    private contact: Contact | null = null;
+    private contacts: Contact[] = [];
 
     // Add Contact
     addContact(contact: Contact): void {
-        this.contact = contact;
+        this.contacts.push(contact);
         console.log("\nContact Added Successfully.");
     }
 
     // Edit Contact
     editContact(name: string): void {
 
-        if (this.contact && this.contact.firstName === name) {
+        let contact = this.contacts.find(c => c.firstName === name);
+
+        if (contact) {
 
             console.log("\nEnter New Contact Details");
 
-            this.contact.lastName = readlineSync.question("Enter Last Name : ");
-            this.contact.address = readlineSync.question("Enter Address : ");
-            this.contact.city = readlineSync.question("Enter City : ");
-            this.contact.state = readlineSync.question("Enter State : ");
-            this.contact.zip = Number(readlineSync.question("Enter Zip : "));
-            this.contact.phoneNumber = Number(readlineSync.question("Enter Phone Number : "));
-            this.contact.email = readlineSync.question("Enter Email : ");
+            contact.lastName = readlineSync.question("Enter Last Name : ");
+            contact.address = readlineSync.question("Enter Address : ");
+            contact.city = readlineSync.question("Enter City : ");
+            contact.state = readlineSync.question("Enter State : ");
+            contact.zip = Number(readlineSync.question("Enter Zip : "));
+            contact.phoneNumber = Number(readlineSync.question("Enter Phone Number : "));
+            contact.email = readlineSync.question("Enter Email : ");
 
             console.log("\nContact Updated Successfully.");
 
@@ -77,9 +79,11 @@ class AddressBook {
     // Delete Contact
     deleteContact(name: string): void {
 
-        if (this.contact && this.contact.firstName === name) {
+        let index = this.contacts.findIndex(c => c.firstName === name);
 
-            this.contact = null;
+        if (index != -1) {
+
+            this.contacts.splice(index, 1);
             console.log("\nContact Deleted Successfully.");
 
         } else {
@@ -87,55 +91,61 @@ class AddressBook {
         }
     }
 
-    // Display Contact
-    displayContact(): void {
+    // Display Contacts
+    displayContacts(): void {
 
-        if (this.contact) {
-            this.contact.display();
-        } else {
-            console.log("\nNo Contact Available.");
+        if (this.contacts.length == 0) {
+            console.log("\nNo Contacts Available.");
+            return;
         }
+
+        console.log("\n========== Contact List ==========");
+
+        this.contacts.forEach(contact => contact.display());
     }
 }
 
 // Main Program
 
-console.log("========== Welcome to Address Book ==========");
-
-// Add Contact
-let person = new Contact(
-    readlineSync.question("Enter First Name : "),
-    readlineSync.question("Enter Last Name : "),
-    readlineSync.question("Enter Address : "),
-    readlineSync.question("Enter City : "),
-    readlineSync.question("Enter State : "),
-    Number(readlineSync.question("Enter Zip : ")),
-    Number(readlineSync.question("Enter Phone Number : ")),
-    readlineSync.question("Enter Email : ")
-);
+console.log("===== Welcome to Address Book =====");
 
 let addressBook = new AddressBook();
 
-addressBook.addContact(person);
+let choice = "y";
 
-// Display
-console.log("\nCurrent Contact");
-addressBook.displayContact();
+while (choice.toLowerCase() == "y") {
 
-// Edit
+    let person = new Contact(
+
+        readlineSync.question("Enter First Name : "),
+        readlineSync.question("Enter Last Name : "),
+        readlineSync.question("Enter Address : "),
+        readlineSync.question("Enter City : "),
+        readlineSync.question("Enter State : "),
+        Number(readlineSync.question("Enter Zip : ")),
+        Number(readlineSync.question("Enter Phone Number : ")),
+        readlineSync.question("Enter Email : ")
+
+    );
+
+    addressBook.addContact(person);
+
+    choice = readlineSync.question("\nDo you want to add another contact (y/n) ? ");
+}
+
+// Display All Contacts
+addressBook.displayContacts();
+
+// Edit Contact
 let editName = readlineSync.question("\nEnter First Name to Edit : ");
-
 addressBook.editContact(editName);
 
 // Display After Edit
-console.log("\nContact After Edit");
-addressBook.displayContact();
+addressBook.displayContacts();
 
-// Delete
+// Delete Contact
 let deleteName = readlineSync.question("\nEnter First Name to Delete : ");
-
 addressBook.deleteContact(deleteName);
 
-// Display After Delete
-console.log("\nContact After Delete");
-addressBook.displayContact();
+// Final Display
+addressBook.displayContacts();
