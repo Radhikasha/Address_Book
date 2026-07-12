@@ -1,142 +1,77 @@
-import * as readlineSync from "readline-sync";
-//==================== Contact Class ====================
-class Contact {
-    firstName;
-    lastName;
-    address;
-    city;
-    state;
-    zip;
-    phoneNumber;
-    email;
-    constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-    display() {
-        console.log("---------------------------------------");
-        console.log("First Name   :", this.firstName);
-        console.log("Last Name    :", this.lastName);
-        console.log("Address      :", this.address);
-        console.log("City         :", this.city);
-        console.log("State        :", this.state);
-        console.log("Zip          :", this.zip);
-        console.log("Phone Number :", this.phoneNumber);
-        console.log("Email        :", this.email);
-    }
-}
-//==================== AddressBook ====================
-class AddressBook {
-    contacts = [];
-    // Add Contact
-    addContact(contact) {
-        this.contacts.push(contact);
-        console.log("\nContact Added Successfully.");
-    }
-    // Edit Contact
-    editContact(name) {
-        let contact = this.contacts.find(c => c.firstName === name);
-        if (contact) {
-            console.log("\nEnter New Details");
-            contact.lastName = readlineSync.question("Last Name : ");
-            contact.address = readlineSync.question("Address : ");
-            contact.city = readlineSync.question("City : ");
-            contact.state = readlineSync.question("State : ");
-            contact.zip = Number(readlineSync.question("Zip : "));
-            contact.phoneNumber = Number(readlineSync.question("Phone Number : "));
-            contact.email = readlineSync.question("Email : ");
-            console.log("\nContact Updated Successfully.");
-        }
-        else {
-            console.log("\nContact Not Found.");
-        }
-    }
-    // Delete Contact
-    deleteContact(name) {
-        let index = this.contacts.findIndex(c => c.firstName === name);
-        if (index != -1) {
-            this.contacts.splice(index, 1);
-            console.log("\nContact Deleted Successfully.");
-        }
-        else {
-            console.log("\nContact Not Found.");
-        }
-    }
-    // Display Contacts
-    displayContacts() {
-        if (this.contacts.length == 0) {
-            console.log("\nNo Contacts Available.");
-            return;
-        }
-        console.log("\n========== Contact List ==========");
-        this.contacts.forEach(contact => contact.display());
-    }
-}
-//==================== AddressBook System ====================
-class AddressBookSystem {
-    // Dictionary
-    addressBooks = new Map();
-    // Add Address Book
-    addAddressBook(name) {
-        if (this.addressBooks.has(name)) {
-            console.log("\nAddress Book already exists.");
-            return;
-        }
-        this.addressBooks.set(name, new AddressBook());
-        console.log("\nAddress Book Created Successfully.");
-    }
-    // Get Address Book
-    getAddressBook(name) {
-        return this.addressBooks.get(name);
-    }
-    // Display Address Books
-    displayAddressBooks() {
-        console.log("\nAvailable Address Books");
-        this.addressBooks.forEach((value, key) => {
-            console.log(key);
-        });
-    }
-}
-//==================== Main Program ====================
-console.log("========== Welcome to Address Book System ==========");
-let system = new AddressBookSystem();
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+const readlineSync = __importStar(require("readline-sync"));
+const Contact_1 = require("./Contact");
+const AddressBookSystem_1 = require("./AddressBookSystem");
+console.log("========== Welcome To Address Book System ==========\n");
+const system = new AddressBookSystem_1.AddressBookSystem();
 // Create Address Book
-let addressBookName = readlineSync.question("\nEnter Address Book Name : ");
+const addressBookName = readlineSync.question("Enter Address Book Name : ");
 system.addAddressBook(addressBookName);
-// Get Address Book
-let addressBook = system.getAddressBook(addressBookName);
-if (addressBook) {
-    let choice = "y";
-    while (choice.toLowerCase() === "y") {
-        let contact = new Contact(readlineSync.question("\nEnter First Name : "), readlineSync.question("Enter Last Name : "), readlineSync.question("Enter Address : "), readlineSync.question("Enter City : "), readlineSync.question("Enter State : "), Number(readlineSync.question("Enter Zip : ")), Number(readlineSync.question("Enter Phone Number : ")), readlineSync.question("Enter Email : "));
-        addressBook.addContact(contact);
-        choice = readlineSync.question("\nDo you want to add another contact (y/n) ? ");
-    }
-    // Display Contacts
-    console.log("\n========== All Contacts ==========");
-    addressBook.displayContacts();
-    // Edit Contact
-    let editChoice = readlineSync.question("\nDo you want to edit a contact (y/n)? ");
-    if (editChoice.toLowerCase() === "y") {
-        let editName = readlineSync.question("Enter First Name to Edit : ");
-        addressBook.editContact(editName);
-        console.log("\nAfter Editing");
-        addressBook.displayContacts();
-    }
-    // Delete Contact
-    let deleteChoice = readlineSync.question("\nDo you want to delete a contact (y/n)? ");
-    if (deleteChoice.toLowerCase() === "y") {
-        let deleteName = readlineSync.question("Enter First Name to Delete : ");
-        addressBook.deleteContact(deleteName);
-        console.log("\nAfter Deleting");
-        addressBook.displayContacts();
-    }
+const addressBook = system.getAddressBook(addressBookName);
+if (!addressBook) {
+    console.log("Address Book Not Found.");
+    process.exit(0);
 }
-console.log("\n========== Address Books ==========");
+let choice = "y";
+// Add Multiple Contacts
+while (choice.toLowerCase() === "y") {
+    console.log("\nEnter Contact Details");
+    const contact = new Contact_1.Contact(readlineSync.question("First Name : "), readlineSync.question("Last Name : "), readlineSync.question("Address : "), readlineSync.question("City : "), readlineSync.question("State : "), Number(readlineSync.question("Zip : ")), Number(readlineSync.question("Phone Number : ")), readlineSync.question("Email : "));
+    addressBook.addContact(contact);
+    choice = readlineSync.question("\nAdd Another Contact? (y/n) : ");
+}
+// Display Contacts
+console.log("\n========== All Contacts ==========");
+addressBook.displayContacts();
+// Edit Contact
+const editChoice = readlineSync.question("\nDo You Want To Edit Contact? (y/n) : ");
+if (editChoice.toLowerCase() === "y") {
+    const name = readlineSync.question("Enter First Name : ");
+    addressBook.editContact(name);
+    console.log("\nAfter Editing");
+    addressBook.displayContacts();
+}
+// Delete Contact
+const deleteChoice = readlineSync.question("\nDo You Want To Delete Contact? (y/n) : ");
+if (deleteChoice.toLowerCase() === "y") {
+    const name = readlineSync.question("Enter First Name : ");
+    addressBook.deleteContact(name);
+    console.log("\nAfter Deleting");
+    addressBook.displayContacts();
+}
+// Display Address Books
 system.displayAddressBooks();
