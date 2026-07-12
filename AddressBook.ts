@@ -90,6 +90,19 @@ searchByState(state: string): Contact[] {
         contact.state.toLowerCase() === state.toLowerCase()
     );
 }
+
+//uc10
+countByCity(city: string): number {
+    return this.contacts.filter(
+        contact => contact.city.toLowerCase() === city.toLowerCase()
+    ).length;
+}
+
+countByState(state: string): number {
+    return this.contacts.filter(
+        contact => contact.state.toLowerCase() === state.toLowerCase()
+    ).length;
+}
 }
 
 

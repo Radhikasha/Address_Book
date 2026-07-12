@@ -97,6 +97,29 @@ searchPersonByState(state: string): void {
 
 }
 
+//uv10
+countPersonsByCity(city: string): void {
+
+    let count = 0;
+
+    this.addressBooks.forEach(addressBook => {
+        count += addressBook.countByCity(city);
+    });
+
+    console.log(`\nTotal Persons in ${city} : ${count}`);
+}
+
+countPersonsByState(state: string): void {
+
+    let count = 0;
+
+    this.addressBooks.forEach(addressBook => {
+        count += addressBook.countByState(state);
+    });
+
+    console.log(`\nTotal Persons in ${state} : ${count}`);
+}
+
 
 
 }

@@ -94,5 +94,12 @@ class AddressBook {
     searchByState(state) {
         return this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
     }
+    //uc10
+    countByCity(city) {
+        return this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase()).length;
+    }
+    countByState(state) {
+        return this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase()).length;
+    }
 }
 exports.AddressBook = AddressBook;

@@ -81,3 +81,8 @@ system.searchPersonByCity(city);
 // Search By State
 let state = readlineSync.question("\nEnter State To Search : ");
 system.searchPersonByState(state);
+//uc10
+let city1 = readlineSync.question("\nEnter City : ");
+system.countPersonsByCity(city1);
+let state1 = readlineSync.question("\nEnter State : ");
+system.countPersonsByState(state1);

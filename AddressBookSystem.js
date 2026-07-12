@@ -65,5 +65,20 @@ class AddressBookSystem {
             console.log("No Person Found.");
         }
     }
+    //uv10
+    countPersonsByCity(city) {
+        let count = 0;
+        this.addressBooks.forEach(addressBook => {
+            count += addressBook.countByCity(city);
+        });
+        console.log(`\nTotal Persons in ${city} : ${count}`);
+    }
+    countPersonsByState(state) {
+        let count = 0;
+        this.addressBooks.forEach(addressBook => {
+            count += addressBook.countByState(state);
+        });
+        console.log(`\nTotal Persons in ${state} : ${count}`);
+    }
 }
 exports.AddressBookSystem = AddressBookSystem;
