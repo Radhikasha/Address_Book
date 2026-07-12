@@ -85,5 +85,14 @@ class AddressBook {
         console.log("\n========== Contact List ==========");
         this.contacts.forEach(contact => contact.display());
     }
+    //uc8
+    // Search by City
+    searchByCity(city) {
+        return this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase());
+    }
+    // Search by State
+    searchByState(state) {
+        return this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
+    }
 }
 exports.AddressBook = AddressBook;

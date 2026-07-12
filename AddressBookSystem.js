@@ -31,5 +31,39 @@ class AddressBookSystem {
             console.log(key);
         });
     }
+    //uc8
+    // Search Person by City
+    // Search Person by City
+    searchPersonByCity(city) {
+        console.log("\nPersons in City :", city);
+        let found = false;
+        this.addressBooks.forEach((addressBook, name) => {
+            let persons = addressBook.searchByCity(city);
+            if (persons.length > 0) {
+                console.log("\nAddress Book :", name);
+                persons.forEach(person => person.display());
+                found = true;
+            }
+        });
+        if (!found) {
+            console.log("No Person Found.");
+        }
+    }
+    // Search Person by State
+    searchPersonByState(state) {
+        console.log("\nPersons in State :", state);
+        let found = false;
+        this.addressBooks.forEach((addressBook, name) => {
+            let persons = addressBook.searchByState(state);
+            if (persons.length > 0) {
+                console.log("\nAddress Book :", name);
+                persons.forEach(person => person.display());
+                found = true;
+            }
+        });
+        if (!found) {
+            console.log("No Person Found.");
+        }
+    }
 }
 exports.AddressBookSystem = AddressBookSystem;

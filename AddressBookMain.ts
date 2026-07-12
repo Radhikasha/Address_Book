@@ -89,3 +89,16 @@ if (deleteChoice.toLowerCase() === "y") {
 // Display Address Books
 
 system.displayAddressBooks();
+
+
+// Search By City
+
+let city = readlineSync.question("\nEnter City To Search : ");
+
+system.searchPersonByCity(city);
+
+// Search By State
+
+let state = readlineSync.question("\nEnter State To Search : ");
+
+system.searchPersonByState(state);
