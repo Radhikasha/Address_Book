@@ -89,3 +89,9 @@ system.countPersonsByState(state1);
 //uc11
 console.log("\nSorting Contacts By Name...\n");
 addressBook.sortByName();
+//uc13
+async function main() {
+    // Existing code
+    await addressBook?.writeToCSV();
+}
+main();

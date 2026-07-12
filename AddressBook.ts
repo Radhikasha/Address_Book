@@ -1,4 +1,5 @@
 import * as readlineSync from "readline-sync";
+import { createObjectCsvWriter } from "csv-writer";
 import { Contact } from "./Contact";
 
 export class AddressBook {
@@ -127,7 +128,29 @@ sortByName(): void {
         console.log(contact.toString());
     });
 
+ } 
+ //uc13
+ async writeToCSV(): Promise<void> {
+
+    const csvWriter = createObjectCsvWriter({
+        path: "contacts.csv",
+        header: [
+            { id: "firstName", title: "First Name" },
+            { id: "lastName", title: "Last Name" },
+            { id: "address", title: "Address" },
+            { id: "city", title: "City" },
+            { id: "state", title: "State" },
+            { id: "zip", title: "Zip" },
+            { id: "phoneNumber", title: "Phone Number" },
+            { id: "email", title: "Email" }
+        ]
+    });
+
+    await csvWriter.writeRecords(this.contacts);
+
+    console.log("\nContacts Successfully Written To CSV File.");
 }
 }
+
 
 

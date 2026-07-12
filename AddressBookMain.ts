@@ -9,6 +9,7 @@ console.log("========== Welcome To Address Book System ==========\n");
 
 const system = new AddressBookSystem();
 
+
 // Create Address Book
 const addressBookName = readlineSync.question("Enter Address Book Name : ");
 
@@ -115,3 +116,14 @@ system.countPersonsByState(state1);
 console.log("\nSorting Contacts By Name...\n");
 
 addressBook.sortByName();
+
+//uc13
+async function main() {
+
+    // Existing code
+
+    await addressBook?.writeToCSV();
+
+}
+
+main();
