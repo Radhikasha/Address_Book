@@ -101,5 +101,21 @@ class AddressBook {
     countByState(state) {
         return this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase()).length;
     }
+    //uc11
+    sortByName() {
+        if (this.contacts.length === 0) {
+            console.log("\nNo Contacts Available.");
+            return;
+        }
+        this.contacts.sort((a, b) => {
+            let name1 = (a.firstName + " " + a.lastName).toLowerCase();
+            let name2 = (b.firstName + " " + b.lastName).toLowerCase();
+            return name1.localeCompare(name2);
+        });
+        console.log("\n===== Contacts Sorted By Name =====");
+        this.contacts.forEach(contact => {
+            console.log(contact.toString());
+        });
+    }
 }
 exports.AddressBook = AddressBook;

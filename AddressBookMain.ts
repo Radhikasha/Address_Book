@@ -110,3 +110,8 @@ system.countPersonsByCity(city1);
 
 let state1 = readlineSync.question("\nEnter State to get count : ");
 system.countPersonsByState(state1);
+
+//uc11
+console.log("\nSorting Contacts By Name...\n");
+
+addressBook.sortByName();

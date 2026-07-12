@@ -23,6 +23,19 @@ class Contact {
         console.log("Phone Number :", this.phoneNumber);
         console.log("Email        :", this.email);
     }
+    toString() {
+        return `
+------------------------------------
+First Name : ${this.firstName}
+Last Name  : ${this.lastName}
+Address    : ${this.address}
+City       : ${this.city}
+State      : ${this.state}
+Zip        : ${this.zip}
+Phone      : ${this.phoneNumber}
+Email      : ${this.email}
+------------------------------------`;
+    }
     // UC7
     equals(contact) {
         return (this.firstName.toLowerCase() === contact.firstName.toLowerCase() &&

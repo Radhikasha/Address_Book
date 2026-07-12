@@ -82,7 +82,10 @@ system.searchPersonByCity(city);
 let state = readlineSync.question("\nEnter State To Search : ");
 system.searchPersonByState(state);
 //uc10
-let city1 = readlineSync.question("\nEnter City : ");
+let city1 = readlineSync.question("\nEnter City to get count : ");
 system.countPersonsByCity(city1);
-let state1 = readlineSync.question("\nEnter State : ");
+let state1 = readlineSync.question("\nEnter State to get count : ");
 system.countPersonsByState(state1);
+//uc11
+console.log("\nSorting Contacts By Name...\n");
+addressBook.sortByName();
