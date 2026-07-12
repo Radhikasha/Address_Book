@@ -1,4 +1,5 @@
 import * as readlineSync from "readline-sync";
+import * as path from "path";
 import { createObjectCsvWriter } from "csv-writer";
 import { Contact } from "./Contact";
 
@@ -132,8 +133,15 @@ sortByName(): void {
  //uc13
  async writeToCSV(): Promise<void> {
 
+    if (this.contacts.length === 0) {
+        console.log("\nNo Contacts Available. Add contacts to this Address Book before writing to CSV.");
+        return;
+    }
+
+    const filePath = path.join(process.cwd(), "contacts.csv");
+
     const csvWriter = createObjectCsvWriter({
-        path: "contacts.csv",
+        path: filePath,
         header: [
             { id: "firstName", title: "First Name" },
             { id: "lastName", title: "Last Name" },
@@ -148,9 +156,6 @@ sortByName(): void {
 
     await csvWriter.writeRecords(this.contacts);
 
-    console.log("\nContacts Successfully Written To CSV File.");
+    console.log(`\nContacts Successfully Written To CSV File : ${filePath}`);
 }
 }
-
-
-

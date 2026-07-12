@@ -35,6 +35,7 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressBook = void 0;
 const readlineSync = __importStar(require("readline-sync"));
+const path = __importStar(require("path"));
 const csv_writer_1 = require("csv-writer");
 class AddressBook {
     constructor() {
@@ -120,8 +121,13 @@ class AddressBook {
     }
     //uc13
     async writeToCSV() {
+        if (this.contacts.length === 0) {
+            console.log("\nNo Contacts Available. Add contacts to this Address Book before writing to CSV.");
+            return;
+        }
+        const filePath = path.join(process.cwd(), "contacts.csv");
         const csvWriter = (0, csv_writer_1.createObjectCsvWriter)({
-            path: "contacts.csv",
+            path: filePath,
             header: [
                 { id: "firstName", title: "First Name" },
                 { id: "lastName", title: "Last Name" },
@@ -134,7 +140,7 @@ class AddressBook {
             ]
         });
         await csvWriter.writeRecords(this.contacts);
-        console.log("\nContacts Successfully Written To CSV File.");
+        console.log(`\nContacts Successfully Written To CSV File : ${filePath}`);
     }
 }
 exports.AddressBook = AddressBook;

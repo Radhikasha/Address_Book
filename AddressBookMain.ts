@@ -1,129 +1,374 @@
 import * as readlineSync from "readline-sync";
-// Provide a minimal declaration for `process` to avoid missing Node type defs in TS configs
-declare var process: { exit(code?: number): never };
 import { Contact } from "./Contact";
-import { AddressBook } from "./AddressBook";
 import { AddressBookSystem } from "./AddressBookSystem";
-
-console.log("========== Welcome To Address Book System ==========\n");
 
 const system = new AddressBookSystem();
 
+let mainChoice: number;
+let subChoice: number;
 
-// Create Address Book
-const addressBookName = readlineSync.question("Enter Address Book Name : ");
+async function main() {
 
-system.addAddressBook(addressBookName);
+do {
 
-const addressBook: AddressBook | undefined =
-    system.getAddressBook(addressBookName);
+    console.log("\n========== ADDRESS BOOK SYSTEM ==========");
+    console.log("1. Contact");
+    console.log("2. Address Book");
+    console.log("3. Search");
+    console.log("4. Count");
+    console.log("5. Sort");
+    console.log("6. File");
+    console.log("7. Exit");
 
-if (!addressBook) {
-    console.log("Address Book Not Found.");
-    process.exit(0);
-}
+    mainChoice = readlineSync.questionInt("\nEnter Your Choice : ");
 
-let choice = "y";
+    switch (mainChoice) {
 
-// Add Multiple Contacts
-while (choice.toLowerCase() === "y") {
+        case 1:
 
-    console.log("\nEnter Contact Details");
+            do {
 
-    const contact = new Contact(
+                console.log("\n========== CONTACT ==========");
+                console.log("1. Add New Contact");
+                console.log("2. Edit Contact");
+                console.log("3. Delete Contact");
+                console.log("4. Display Contacts");
+                console.log("5. Back");
 
-        readlineSync.question("First Name : "),
-        readlineSync.question("Last Name : "),
-        readlineSync.question("Address : "),
-        readlineSync.question("City : "),
-        readlineSync.question("State : "),
-        Number(readlineSync.question("Zip : ")),
-        Number(readlineSync.question("Phone Number : ")),
-        readlineSync.question("Email : ")
+                subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
 
+                switch (subChoice) {
+case 1: {
+
+    let bookName = readlineSync.question("Enter Address Book Name : ");
+
+    let addressBook = system.getAddressBook(bookName);
+
+    if (addressBook == undefined) {
+        console.log("Address Book Not Found.");
+        break;
+    }
+
+    let firstName = readlineSync.question("First Name : ");
+    let lastName = readlineSync.question("Last Name : ");
+    let address = readlineSync.question("Address : ");
+    let city = readlineSync.question("City : ");
+    let state = readlineSync.question("State : ");
+    let zip = readlineSync.questionInt("Zip : ");
+    let phone = readlineSync.questionInt("Phone Number : ");
+    let email = readlineSync.question("Email : ");
+
+    let contact = new Contact(
+        firstName,
+        lastName,
+        address,
+        city,
+        state,
+        zip,
+        phone,
+        email
     );
 
     addressBook.addContact(contact);
 
-    choice = readlineSync.question("\nAdd Another Contact? (y/n) : ");
+    break;
 }
 
-// Display Contacts
-console.log("\n========== All Contacts ==========");
+case 2: {
 
-addressBook.displayContacts();
+    let bookName = readlineSync.question("Enter Address Book Name : ");
 
-// Edit Contact
+    let addressBook = system.getAddressBook(bookName);
 
-const editChoice = readlineSync.question(
-    "\nDo You Want To Edit Contact? (y/n) : "
-);
+    if (addressBook == undefined) {
+        console.log("Address Book Not Found.");
+        break;
+    }
 
-if (editChoice.toLowerCase() === "y") {
+    let editName = readlineSync.question("Enter First Name To Edit : ");
 
-    const name = readlineSync.question("Enter First Name : ");
+    addressBook.editContact(editName);
 
-    addressBook.editContact(name);
+    break;
+}
 
-    console.log("\nAfter Editing");
+case 3: {
+
+    let bookName = readlineSync.question("Enter Address Book Name : ");
+
+    let addressBook = system.getAddressBook(bookName);
+
+    if (addressBook == undefined) {
+        console.log("Address Book Not Found.");
+        break;
+    }
+
+    let deleteName = readlineSync.question("Enter First Name To Delete : ");
+
+    addressBook.deleteContact(deleteName);
+
+    break;
+}
+
+case 4: {
+
+    let bookName = readlineSync.question("Enter Address Book Name : ");
+
+    let addressBook = system.getAddressBook(bookName);
+
+    if (addressBook == undefined) {
+        console.log("Address Book Not Found.");
+        break;
+    }
 
     addressBook.displayContacts();
+
+    break;
 }
 
-// Delete Contact
+case 5:
 
-const deleteChoice = readlineSync.question(
-    "\nDo You Want To Delete Contact? (y/n) : "
-);
+    break;
 
-if (deleteChoice.toLowerCase() === "y") {
+default:
 
-    const name = readlineSync.question("Enter First Name : ");
-
-    addressBook.deleteContact(name);
-
-    console.log("\nAfter Deleting");
-
-    addressBook.displayContacts();
-}
-
-// Display Address Books
-
-system.displayAddressBooks();
-
-
-// Search By City
-
-let city = readlineSync.question("\nEnter City To Search : ");
-
-system.searchPersonByCity(city);
-
-// Search By State
-
-let state = readlineSync.question("\nEnter State To Search : ");
-
-system.searchPersonByState(state);
-
-
-//uc10
-let city1 = readlineSync.question("\nEnter City to get count : ");
-system.countPersonsByCity(city1);
-
-let state1 = readlineSync.question("\nEnter State to get count : ");
-system.countPersonsByState(state1);
-
-//uc11
-console.log("\nSorting Contacts By Name...\n");
-
-addressBook.sortByName();
-
-//uc13
-async function main() {
-
-    // Existing code
-
-    await addressBook?.writeToCSV();
+    console.log("Invalid Choice.");
 
 }
+} while (subChoice != 5);
 
-main();
+break;
+case 2:
+
+    do {
+
+        console.log("\n========== ADDRESS BOOK ==========");
+        console.log("1. Add New Address Book");
+        console.log("2. Display Address Books");
+        console.log("3. Back");
+
+        subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
+
+        switch (subChoice) {
+
+            case 1:
+
+                let addressBookName = readlineSync.question("Enter Address Book Name : ");
+
+                system.addAddressBook(addressBookName);
+
+                break;
+
+            case 2:
+
+                system.displayAddressBooks();
+
+                break;
+
+            case 3:
+
+                break;
+
+            default:
+
+                console.log("Invalid Choice.");
+
+        }
+
+    } while (subChoice != 3);
+
+    break;
+    case 3:
+
+    do {
+
+        console.log("\n========== SEARCH ==========");
+        console.log("1. Search By City");
+        console.log("2. Search By State");
+        console.log("3. Back");
+
+        subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
+
+        switch (subChoice) {
+
+            case 1:
+
+                let city = readlineSync.question("Enter City : ");
+
+                system.searchPersonByCity(city);
+
+                break;
+
+            case 2:
+
+                let state = readlineSync.question("Enter State : ");
+
+                system.searchPersonByState(state);
+
+                break;
+
+            case 3:
+
+                break;
+
+            default:
+
+                console.log("Invalid Choice.");
+
+        }
+
+    } while (subChoice != 3);
+
+    break;
+
+
+case 4:
+
+    do {
+
+        console.log("\n========== COUNT ==========");
+        console.log("1. Count By City");
+        console.log("2. Count By State");
+        console.log("3. Back");
+
+        subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
+
+        switch (subChoice) {
+
+            case 1:
+
+                let cityName = readlineSync.question("Enter City : ");
+
+                system.countPersonsByCity(cityName);
+
+                break;
+
+            case 2:
+
+                let stateName = readlineSync.question("Enter State : ");
+
+                system.countPersonsByState(stateName);
+
+                break;
+
+            case 3:
+
+                break;
+
+            default:
+
+                console.log("Invalid Choice.");
+
+        }
+
+    } while (subChoice != 3);
+
+    break;
+    case 5:
+
+    do {
+
+        console.log("\n========== SORT ==========");
+        console.log("1. Sort By Name");
+        console.log("2. Back");
+
+        subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
+
+        switch (subChoice) {
+
+            case 1:
+
+                let sortBook = readlineSync.question("Enter Address Book Name : ");
+
+                let addressBook = system.getAddressBook(sortBook);
+
+                if (addressBook == undefined) {
+                    console.log("Address Book Not Found.");
+                    break;
+                }
+
+                addressBook.sortByName();
+
+                break;
+
+            case 2:
+
+                break;
+
+            default:
+
+                console.log("Invalid Choice.");
+
+        }
+
+    } while (subChoice != 2);
+
+    break;
+
+
+case 6:
+
+    do {
+
+        console.log("\n========== FILE ==========");
+        console.log("1. Write Contacts To CSV");
+        console.log("2. Back");
+
+        subChoice = readlineSync.questionInt("\nEnter Your Choice : ");
+
+        switch (subChoice) {
+
+            case 1: {
+
+                let fileBook = readlineSync.question("Enter Address Book Name : ");
+
+                let book = system.getAddressBook(fileBook);
+
+                if (book == undefined) {
+                    console.log("Address Book Not Found.");
+                    break;
+                }
+
+                try {
+                    await book.writeToCSV();
+                } catch (err) {
+                    console.log("\nFailed To Write CSV File :", err);
+                }
+
+                break;
+            }
+
+            case 2:
+
+                break;
+
+            default:
+
+                console.log("Invalid Choice.");
+
+        }
+
+    } while (subChoice != 2);
+
+    break;
+
+
+case 7:
+
+    console.log("\nThank You!");
+    break;
+
+
+default:
+
+    console.log("\nInvalid Choice.");
+
+}
+
+} while (mainChoice != 7);
+
+}
+
+main().catch(err => {
+    console.error("\nUnexpected Error :", err);
+});
